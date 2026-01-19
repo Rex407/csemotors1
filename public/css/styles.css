@@ -1,328 +1,526 @@
-/* Reset and Base Styles */
+/* Reset and base styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-:root {
-    --primary-color: #003366;
-    --secondary-color: #cc0000;
-    --accent-color: #ffcc00;
-    --text-color: #333;
-    --light-gray: #f5f5f5;
-    --border-radius: 4px;
-}
-
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Arial, sans-serif;
     line-height: 1.6;
-    color: var(--text-color);
+    color: #333;
+    background-color: #f5f5f5;
 }
 
-.container {
+#wrapper {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
-}
-
-/* Header Styles */
-.header-container {
+    padding: 20px;
+    min-height: 100vh;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-    border-bottom: 1px solid #ddd;
+    flex-direction: column;
 }
 
-.logo-container img {
-    height: auto;
-    max-width: 150px;
+/* My Account section */
+.my-account {
+    text-align: right;
+    margin: 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #1a237e;
 }
 
-.header-contact p {
-    margin: 0.25rem 0;
-    font-size: 0.9rem;
+.my-account h2 {
+    color: #1a237e;
+    font-size: 1.2rem;
 }
 
-/* Navigation */
-.main-navigation {
-    background-color: var(--primary-color);
-    padding: 0.5rem 0;
-}
-
-.nav-menu {
-    display: flex;
-    list-style: none;
-    justify-content: center;
-}
-
-.nav-menu li {
-    margin: 0 1rem;
-}
-
-.nav-menu a {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: var(--border-radius);
-    transition: background-color 0.3s;
-}
-
-.nav-menu a:hover,
-.nav-menu a.active {
-    background-color: var(--secondary-color);
-}
-
-.mobile-menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-/* Hero Section */
-.hero {
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/hero-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    color: white;
-    padding: 4rem 1rem;
+/* Welcome section */
+.welcome {
     text-align: center;
-    margin: 2rem 0;
+    margin: 30px 0;
 }
 
-.hero-content h1 {
+.welcome h1 {
+    color: #1a237e;
     font-size: 2.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 20px;
 }
 
-.hero-content p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
+/* Featured Vehicle section */
+.featured-vehicle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.vehicle-title {
+    color: #1a237e;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.vehicle-description {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 30px;
 }
 
 .cta-button {
-    display: inline-block;
-    background-color: var(--secondary-color);
+    background-color: #d32f2f;
     color: white;
-    padding: 0.75rem 2rem;
-    text-decoration: none;
-    border-radius: var(--border-radius);
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.2rem;
     font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .cta-button:hover {
-    background-color: #a30000;
+    background-color: #b71c1c;
 }
 
-/* Featured Vehicles */
-.featured-vehicles {
-    margin: 3rem 0;
-}
-
-.featured-vehicles h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    color: var(--primary-color);
-}
-
-.vehicle-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-}
-
-.vehicle-card {
-    border: 1px solid #ddd;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.vehicle-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.vehicle-card img {
+.vehicle-image img {
     width: 100%;
-    height: 200px;
+    height: auto;
+    border-radius: 5px;
     object-fit: cover;
+    max-height: 300px;
 }
 
-.vehicle-info {
-    padding: 1rem;
+/* Upgrades section */
+.upgrades {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
 }
 
-.vehicle-info h3 {
-    margin-bottom: 0.5rem;
-    color: var(--primary-color);
+.upgrades h2 {
+    color: #1a237e;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
 }
 
-.price {
-    font-size: 1.25rem;
+.upgrade-items {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.upgrade-item {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.bullet {
+    color: #d32f2f;
+    font-size: 2rem;
+    margin-right: 10px;
+}
+
+/* Reviews section */
+.reviews {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.reviews h2 {
+    color: #1a237e;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.review-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.review-item:last-child {
+    border-bottom: none;
+}
+
+.review-text {
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+.review-rating {
+    color: #1a237e;
     font-weight: bold;
-    color: var(--secondary-color);
-    margin: 0.5rem 0;
+    white-space: nowrap;
+    margin-left: 10px;
 }
 
-.view-details {
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-    border-radius: var(--border-radius);
-    margin-top: 0.5rem;
-}
-
-/* Services */
-.services {
-    background-color: var(--light-gray);
-    padding: 3rem 1rem;
-    margin: 3rem 0;
-}
-
-.services h2 {
+/* Footer styles */
+.site-footer {
     text-align: center;
-    margin-bottom: 2rem;
-    color: var(--primary-color);
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 2px solid #1a237e;
+    color: #666;
 }
 
-.service-cards {
+/* Responsive design */
+@media (max-width: 768px) {
+    #wrapper {
+        padding: 10px;
+    }
+    
+    .featured-vehicle {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .upgrade-items {
+        grid-template-columns: 1fr;
+    }
+    
+    .review-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .welcome h1 {
+        font-size: 2rem;
+    }
+    
+    .vehicle-title {
+        font-size: 1.8rem;
+    }
+    
+    .cta-button {
+        padding: 12px 30px;
+        font-size: 1.1rem;
+    }
+}
+
+/* Navigation styles */
+.main-nav {
+    background-color: #1a237e;
+    border-radius: 5px;
+    margin-bottom: 30px;
+}
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding: 0;
+}
+
+.main-nav li {
+    padding: 15px 20px;
+}
+
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 3px;
+    transition: background-color 0.3s;
+    font-size: 1.1rem;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+    background-color: #3949ab;
+}
+
+/* Add separators between nav items */
+.main-nav li:not(:last-child) {
+    position: relative;
+}
+
+.main-nav li:not(:last-child)::after {
+    content: "|";
+    color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Responsive navigation */
+@media (max-width: 768px) {
+    .main-nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .main-nav li {
+        padding: 10px;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .main-nav li:not(:last-child)::after {
+        display: none;
+    }
+    
+    .main-nav a {
+        display: block;
+        padding: 15px;
+        width: 100%;
+    }
+}
+
+/* Mobile menu toggle button -  */
+.mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: #1a237e;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .main-nav ul {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        z-index: 1000;
+        padding: 20px;
+    }
+    
+    .main-nav ul.active {
+        display: flex;
+    }
+    
+    .main-nav li {
+        padding: 10px 0;
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .main-nav li:last-child {
+        border-bottom: none;
+    }
+    
+    .main-nav a {
+        display: block;
+        padding: 15px;
+        color: #333;
+        width: 100%;
+    }
+    
+    .main-nav a:hover,
+    .main-nav a.active {
+        background-color: #f5f5f5;
+        color: #1a237e;
+    }
+    
+    /* Remove pipe separators on mobile */
+    .main-nav li:not(:first-child)::before,
+    .main-nav li:not(:last-child)::after {
+        display: none;
+    }
+}
+
+/* Upgrades section with images */
+.upgrades {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.upgrades h2 {
+    color: #1a237e;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.upgrade-items {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    max-width: 1000px;
-    margin: 0 auto;
+    gap: 30px;
 }
 
-.service-card {
+.upgrade-item {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.upgrade-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.upgrade-image {
+    height: 180px;
+    overflow: hidden;
+}
+
+.upgrade-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.upgrade-item:hover .upgrade-image img {
+    transform: scale(1.05);
+}
+
+.upgrade-details {
+    padding: 20px;
+}
+
+.upgrade-details h3 {
+    color: #1a237e;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.upgrade-details p {
+    color: #666;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Reviews section with star ratings */
+.reviews {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.reviews h2 {
+    color: #1a237e;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
     text-align: center;
-    padding: 2rem;
-    background: white;
-    border-radius: var(--border-radius);
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.service-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-/* Testimonials */
-.testimonials {
-    margin: 3rem 0;
-    text-align: center;
-}
-
-.testimonials h2 {
-    color: var(--primary-color);
-    margin-bottom: 2rem;
-}
-
-.testimonial-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+.review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     max-width: 800px;
     margin: 0 auto;
 }
 
-.testimonial {
-    background-color: var(--light-gray);
-    padding: 2rem;
-    border-radius: var(--border-radius);
+.review-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.review-item:hover {
+    background-color: #f0f0f0;
+}
+
+.review-text {
+    font-size: 1.1rem;
     font-style: italic;
+    color: #333;
+    flex: 1;
 }
 
-.testimonial cite {
-    display: block;
-    margin-top: 1rem;
-    font-style: normal;
+.review-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20px;
+    min-width: 100px;
+}
+
+.stars {
+    color: #ffc107;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.rating-text {
+    color: #1a237e;
     font-weight: bold;
-    color: var(--primary-color);
+    font-size: 0.9rem;
+    margin-top: 5px;
 }
 
-/* Footer */
-footer {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 2rem 0 1rem;
-    margin-top: 3rem;
-}
-
-.footer-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-.footer-section h3 {
-    margin-bottom: 1rem;
-    color: var(--accent-color);
-}
-
-.footer-bottom {
-    text-align: center;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-/* Responsive Design */
+/* Responsive design for upgrades and reviews */
 @media (max-width: 768px) {
-    .nav-menu {
-        flex-direction: column;
-        display: none;
-        position: absolute;
-        width: 100%;
-        background-color: var(--primary-color);
-        z-index: 100;
-    }
-
-    .nav-menu.active {
-        display: flex;
-    }
-
-    .nav-menu li {
-        margin: 0;
-        text-align: center;
-    }
-
-    .nav-menu a {
-        display: block;
-        padding: 1rem;
-    }
-
-    .mobile-menu-toggle {
-        display: block;
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-    }
-
-    .header-container {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .hero-content h1 {
-        font-size: 2rem;
-    }
-
-    .vehicle-grid {
+    .upgrade-items {
         grid-template-columns: 1fr;
     }
+    
+    .review-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .review-rating {
+        margin-left: 0;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+    }
+    
+    .review-text {
+        font-size: 1rem;
+    }
+}
 
-    .service-cards {
-        grid-template-columns: 1fr;
+@media (max-width: 480px) {
+    .upgrade-image {
+        height: 150px;
+    }
+    
+    .upgrade-details {
+        padding: 15px;
+    }
+    
+    .upgrade-details h3 {
+        font-size: 1.1rem;
     }
 }

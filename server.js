@@ -10,92 +10,99 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+const inventoryRoute = require("./routes/inventoryRoute")
+const utilities = require("./utilities")
+const baseController = require("./controllers/baseController") // ← ADD THIS
 
 /* ***********************
  * View Engines and Templates
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
+app.set("layout", "./layouts/layout")
 
 /* ***********************
  * Routes
  *************************/
 app.use(static)
 
-// Define the navigation links
-const navLinks = [
-    { name: "Home", path: "/", active: true },
-    { name: "Custom", path: "/custom", active: false },
-    { name: "Sedan", path: "/sedan", active: false },
-    { name: "SUV", path: "/suv", active: false },
-    { name: "Truck", path: "/truck", active: false }
-];
-
-// Function to generate navigation HTML
-function buildNavigation(currentPath) {
-    return `
-        <ul>
-            ${navLinks.map(link => `
-                <li>
-                    <a href="${link.path}" class="${currentPath === link.path ? 'active' : ''}">
-                        ${link.name}
-                    </a>
-                </li>
-            `).join('')}
-        </ul>
-    `;
-}
-
-// Index route
-app.get("/", function(req, res){
-    res.render("index", {
-        title: "Home",
-        nav: buildNavigation("/") // Pass the navigation HTML
-    })
-})
+// Index route - USING THE HANDLEERRORS MIDDLEWARE
+app.get("/", utilities.handleErrors(baseController.buildHome))
 
 // Inventory routes
 app.use("/inv", inventoryRoute)
 
-// Other routes would look similar
-app.get("/custom", function(req, res){
+// Vehicle type routes - Update these too
+app.get("/custom", utilities.handleErrors(async (req, res) => {
+    const nav = await utilities.getNav()
     res.render("custom", {
         title: "Custom",
-        nav: buildNavigation("/custom")
+        nav
     })
-})
+}))
 
-app.get("/sedan", function(req, res){
+app.get("/sedan", utilities.handleErrors(async (req, res) => {
+    const nav = await utilities.getNav()
     res.render("sedan", {
         title: "Sedan",
-        nav: buildNavigation("/sedan")
+        nav
     })
-})
+}))
 
-app.get("/suv", function(req, res){
+app.get("/suv", utilities.handleErrors(async (req, res) => {
+    const nav = await utilities.getNav()
     res.render("suv", {
         title: "SUV",
-        nav: buildNavigation("/suv")
+        nav
     })
-})
+}))
 
-app.get("/truck", function(req, res){
+app.get("/truck", utilities.handleErrors(async (req, res) => {
+    const nav = await utilities.getNav()
     res.render("truck", {
         title: "Truck",
-        nav: buildNavigation("/truck")
+        nav
+    })
+}))
+
+/* ***********************
+ * File Not Found Route - must be last route in list
+ *************************/
+app.use(async (req, res, next) => {
+    next({status: 404, message: 'Sorry, we appear to have lost that page.'})
+})
+
+/* ***********************
+ * Express Error Handler
+ * Place after all other middleware
+ * REVISED VERSION WITH GENERIC MESSAGES
+ *************************/
+app.use(async (err, req, res, next) => {
+    let nav = await utilities.getNav()
+    console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+    
+    let message
+    if(err.status == 404) { 
+        message = err.message 
+    } else { 
+        message = 'Oh no! There was a crash. Maybe try a different route?' 
+    }
+    
+    res.render("errors/error", {
+        title: err.status || 'Server Error',
+        message,
+        nav
     })
 })
 
 /* ***********************
  * Local Server Information
- * Values from .env (environment) file
  *************************/
-const port = process.env.PORT
-const host = process.env.HOST
+const port = process.env.PORT || 3000
+const host = process.env.HOST || 'localhost'
 
 /* ***********************
- * Log statement to confirm server operation
+ * Log statement
  *************************/
 app.listen(port, () => {
     console.log(`app listening on ${host}:${port}`)

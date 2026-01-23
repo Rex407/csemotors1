@@ -1,6 +1,6 @@
 const invModel = require("../models/inventory-model")
 const Util = {}
-console.log(data)
+// REMOVE THIS LINE: console.log(data)  // ← This causes the error
 
 /* ************************
  * Constructs the nav HTML unordered list
@@ -24,8 +24,6 @@ Util.getNav = async function (req, res, next) {
   list += "</ul>"
   return list
 }
-
-module.exports = Util
 
 /* **************************************
 * Build the classification view HTML
@@ -59,3 +57,12 @@ Util.buildClassificationGrid = async function(data){
   }
   return grid
 }
+
+module.exports = Util
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Wrap other function in this for 
+ * General Error Handling
+ **************************************** */
+Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)

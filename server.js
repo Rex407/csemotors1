@@ -23,33 +23,67 @@ app.set("layout", "./layouts/layout") // not at views root
  *************************/
 app.use(static)
 
-// Define the Delorean data
-const featuredVehicle = {
-    make: 'DMC',
-    model: 'Delorean',
-    description: '3 Cup holders\nSuperman doors\nFuzzy dice!',
-    image: '/images/delorean.jpg',
-    upgrades: [
-        'Flux Capacitor',
-        'Flame Decals',
-        'Bumper Stickers',
-        'Hub Caps'
-    ],
-    reviews: [
-        { text: 'So fast it\'s almost like traveling in time.', rating: 4 },
-        { text: 'Coolest ride on the road.', rating: 4 },
-        { text: 'I\'m feeling McFly!', rating: 5 },
-        { text: 'The most futuristic ride of our day.', rating: 4.5 },
-        { text: '80\'s livin\' and I love it!', rating: 5 }
-    ]
-};
+// Define the navigation links
+const navLinks = [
+    { name: "Home", path: "/", active: true },
+    { name: "Custom", path: "/custom", active: false },
+    { name: "Sedan", path: "/sedan", active: false },
+    { name: "SUV", path: "/suv", active: false },
+    { name: "Truck", path: "/truck", active: false }
+];
+
+// Function to generate navigation HTML
+function buildNavigation(currentPath) {
+    return `
+        <ul>
+            ${navLinks.map(link => `
+                <li>
+                    <a href="${link.path}" class="${currentPath === link.path ? 'active' : ''}">
+                        ${link.name}
+                    </a>
+                </li>
+            `).join('')}
+        </ul>
+    `;
+}
 
 // Index route
 app.get("/", function(req, res){
     res.render("index", {
         title: "Home",
-        pageTitle: "CSE Motors",
-        featuredVehicle: featuredVehicle
+        nav: buildNavigation("/") // Pass the navigation HTML
+    })
+})
+
+// Inventory routes
+app.use("/inv", inventoryRoute)
+
+// Other routes would look similar
+app.get("/custom", function(req, res){
+    res.render("custom", {
+        title: "Custom",
+        nav: buildNavigation("/custom")
+    })
+})
+
+app.get("/sedan", function(req, res){
+    res.render("sedan", {
+        title: "Sedan",
+        nav: buildNavigation("/sedan")
+    })
+})
+
+app.get("/suv", function(req, res){
+    res.render("suv", {
+        title: "SUV",
+        nav: buildNavigation("/suv")
+    })
+})
+
+app.get("/truck", function(req, res){
+    res.render("truck", {
+        title: "Truck",
+        nav: buildNavigation("/truck")
     })
 })
 

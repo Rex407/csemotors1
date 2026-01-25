@@ -12,7 +12,7 @@ const app = express()
 const static = require("./routes/static")
 const inventoryRoute = require("./routes/inventoryRoute")
 const utilities = require("./utilities")
-const baseController = require("./controllers/baseController") // ← ADD THIS
+const baseController = require("./controllers/baseController")
 
 /* ***********************
  * View Engines and Templates
@@ -32,7 +32,7 @@ app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes
 app.use("/inv", inventoryRoute)
 
-// Vehicle type routes - Update these too
+// Vehicle type routes - USING HANDLEERRORS
 app.get("/custom", utilities.handleErrors(async (req, res) => {
     const nav = await utilities.getNav()
     res.render("custom", {
@@ -73,10 +73,10 @@ app.use(async (req, res, next) => {
 })
 
 /* ***********************
- * Express Error Handler
- * Place after all other middleware
- * REVISED VERSION WITH GENERIC MESSAGES
- *************************/
+* Express Error Handler
+* Place after all other middleware
+* REVISED VERSION WITH GENERIC MESSAGES
+*************************/
 app.use(async (err, req, res, next) => {
     let nav = await utilities.getNav()
     console.error(`Error at: "${req.originalUrl}": ${err.message}`)
@@ -98,8 +98,8 @@ app.use(async (err, req, res, next) => {
 /* ***********************
  * Local Server Information
  *************************/
-const port = process.env.PORT || 3000
-const host = process.env.HOST || 'localhost'
+const port = process.env.PORT
+const host = process.env.HOST
 
 /* ***********************
  * Log statement

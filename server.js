@@ -10,100 +10,78 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
-const inventoryRoute = require("./routes/inventoryRoute")
-const utilities = require("./utilities")
 const baseController = require("./controllers/baseController")
+const inventoryRoute = require("./routes/inventoryRoute")
+const utilities = require('./utilities/index')
+
+const pool = require('./database/')
+
 
 /* ***********************
- * View Engines and Templates
+ * View Engine And Templates
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
-app.set("layout", "./layouts/layout")
+app.set("layout", "./layouts/layout") // not at views root
+
+
+/* ***********************
+ * Middleware
+ * ************************/
+ 
+
+
 
 /* ***********************
  * Routes
  *************************/
 app.use(static)
-
-// Index route - USING THE HANDLEERRORS MIDDLEWARE
+//Index Route
 app.get("/", utilities.handleErrors(baseController.buildHome))
 
 // Inventory routes
 app.use("/inv", inventoryRoute)
 
-// Vehicle type routes - USING HANDLEERRORS
-app.get("/custom", utilities.handleErrors(async (req, res) => {
-    const nav = await utilities.getNav()
-    res.render("custom", {
-        title: "Custom",
-        nav
-    })
-}))
 
-app.get("/sedan", utilities.handleErrors(async (req, res) => {
-    const nav = await utilities.getNav()
-    res.render("sedan", {
-        title: "Sedan",
-        nav
-    })
-}))
 
-app.get("/suv", utilities.handleErrors(async (req, res) => {
-    const nav = await utilities.getNav()
-    res.render("suv", {
-        title: "SUV",
-        nav
-    })
-}))
-
-app.get("/truck", utilities.handleErrors(async (req, res) => {
-    const nav = await utilities.getNav()
-    res.render("truck", {
-        title: "Truck",
-        nav
-    })
-}))
-
-/* ***********************
- * File Not Found Route - must be last route in list
- *************************/
+// File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
-    next({status: 404, message: 'Sorry, we appear to have lost that page.'})
+  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 })
+
 
 /* ***********************
 * Express Error Handler
 * Place after all other middleware
-* REVISED VERSION WITH GENERIC MESSAGES
 *************************/
 app.use(async (err, req, res, next) => {
-    let nav = await utilities.getNav()
-    console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-    
-    let message
-    if(err.status == 404) { 
-        message = err.message 
-    } else { 
-        message = 'Oh no! There was a crash. Maybe try a different route?' 
-    }
-    
-    res.render("errors/error", {
-        title: err.status || 'Server Error',
-        message,
-        nav
-    })
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  if (err.status == 404) {
+    message = err.message
+  } else {
+    message = "Oh no! There was a crash. Maybe try a different route?"
+  }
+  res.render("errors/error", {
+    title: err.status || "Server Error",
+    message,
+    nav,
+  })
 })
+
+
+
 
 /* ***********************
  * Local Server Information
+ * Values from .env (environment) file
  *************************/
 const port = process.env.PORT
 const host = process.env.HOST
 
 /* ***********************
- * Log statement
+ * Log statement to confirm server operation
  *************************/
 app.listen(port, () => {
-    console.log(`app listening on ${host}:${port}`)
+  console.log(`app listening on ${host}:${port}`)
 })

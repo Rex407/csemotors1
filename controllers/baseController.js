@@ -1,4 +1,4 @@
-const utilities = require("../utilities/")
+const utilities = require("../utilities")
 const baseController = {}
 
 baseController.buildHome = async function(req, res){
@@ -12,5 +12,6 @@ baseController.buildHome = async function(req, res){
 baseController.triggerError = async function (req, res, next) {
   throw new Error("500 Server Error")  
 }
+
 
 module.exports = baseController

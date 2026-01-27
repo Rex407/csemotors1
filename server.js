@@ -29,7 +29,7 @@ app.set("layout", "./layouts/layout") // not at views root
  * Middleware
  * ************************/
  
-
+app.use(express.static("public"))
 
 
 /* ***********************

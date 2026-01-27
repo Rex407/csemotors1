@@ -11,10 +11,13 @@
             },
             "ssh": "Disabled",
             "previewLimit": 50,
+            "sshOptions": {
+                "port": 22
+            },
             "server": "localhost",
             "driver": "PostgreSQL",
             "name": "render.com",
-            "connectString": "postgresql://csemotors:3dLUN1lD2IiobdTUcTtHSYIB8R4WqubM@dpg-d5re4l94tr6s73e14dc0-a.frankfurt-postgres.render.com/csemotors1rk"
+            "connectString": "postgresql://csemotors:YBhDS3ZV9QOfOyK4PjsXjTc9J2jq6V5H@dpg-d5s4ulu3jp1c73ekmnj0-a.oregon-postgres.render.com/csemotors1rk_bzl3"
         }
     ]
 }

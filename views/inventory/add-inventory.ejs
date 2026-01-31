@@ -1,0 +1,30 @@
+<main>
+  <h1>Add New Vehicle</h1>
+
+  <% if (messages.notice || messages.error) { %>
+    <p class="<%= messages.error ? 'error' : 'notice' %>">
+      <%= messages.notice || messages.error %>
+    </p>
+  <% } %>
+
+  <form action="/inv/add-inventory" method="post">
+    <!-- Classification dropdown (sticky) -->
+    <label for="classification_id">Classification:</label>
+    <%- classificationSelect %>  <!-- passed from controller -->
+
+    <label for="inv_make">Make:</label>
+    <input type="text" name="inv_make" id="inv_make" value="<%= locals.inv_make || '' %>" required>
+
+    <label for="inv_model">Model:</label>
+    <input type="text" name="inv_model" id="inv_model" value="<%= locals.inv_model || '' %>" required>
+
+    <!-- Add other fields: inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color -->
+    <!-- Example: -->
+    <label for="inv_description">Description:</label>
+    <textarea name="inv_description" required><%= locals.inv_description || '' %></textarea>
+
+    <!-- ... other inputs with value="<%= locals.FIELD || '' %>" ... -->
+
+    <button type="submit">Add Vehicle</button>
+  </form>
+</main>

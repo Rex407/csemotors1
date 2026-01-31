@@ -42,5 +42,27 @@ async function getInventoryById(invId) {
   }
 }
 
+async function registerClassification(classification_name) {
+  const sql = "INSERT INTO classification (classification_name) VALUES ($1) RETURNING *";
+  try {
+    const result = await pool.query(sql, [classification_name]);
+    return result.rowCount > 0;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
 
-module.exports = {getClassifications, getInventoryByClassificationId,getInventoryById};
+async function registerClassification(classification_name) {
+  try {
+    const sql = "INSERT INTO classification (classification_name) VALUES ($1) RETURNING *";
+    const result = await pool.query(sql, [classification_name]);
+    return result.rowCount > 0;  // true if inserted
+  } catch (error) {
+    console.error("Database error adding classification:", error);
+    return false;
+  }
+}
+
+
+module.exports = {getClassifications, getInventoryByClassificationId,getInventoryById, registerClassification};

@@ -39,6 +39,24 @@ app.set("layout", "./layouts/layout") // not at views root
   name: 'sessionId',
 }))
 
+const { body, validationResult } = require('express-validator');
+
+const validateClassification = [
+  body('classification_name')
+    .trim()
+    .notEmpty().withMessage('Name is required')
+    .matches(/^[A-Za-z0-9]+$/).withMessage('No spaces or special characters allowed')
+    .escape(),
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      req.flash('error', errors.array().map(e => e.msg).join('; '));
+      return res.redirect('back');  // or render view with errors
+    }
+    next();
+  }
+];
+
 // Express Messages Middleware
 app.use(require('connect-flash')())
 app.use(function(req, res, next){

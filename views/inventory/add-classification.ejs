@@ -1,26 +1,34 @@
-<%- include('../partials/head') %>
-<title>Add Classification</title>
-</head>
-<body>
-  <%- include('../partials/header') %>
-  <%- include('../partials/nav') %>
+<h1>Add New Classification</h1>
 
-  <main>
-    <h1>Add New Classification</h1>
+<!-- Flash Messages -->
+<% if (messages().length > 0) { %>
+  <div id="flash-messages">
+    <%- messages() %>
+  </div>
+<% } %>
 
-    <% if (messages.notice) { %><p class="notice"><%= messages.notice %></p><% } %>
-    <% if (messages.error) { %><p class="error"><%= messages.error %></p><% } %>
+<% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+  <div class="error-list">
+    <ul>
+      <% errors.forEach(function(error) { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
 
-    <form action="/inv/add-classification" method="post" id="addClassificationForm">
-      <label for="classification_name">Classification Name:</label>
-      <input type="text" name="classification_name" id="classification_name" required
-             pattern="[A-Za-z0-9]+" title="No spaces or special characters allowed">
 
-      <p><small>Cannot contain spaces or special characters.</small></p>
-
-      <button type="submit">Add Classification</button>
-    </form>
-  </main>
-
-  <%- include('../partials/footer') %>
-</body>
+<form action="/inv/add-classification" method="post" id="add-classification-form">
+  <label for="classification_name">Classification Name</label>
+  <input 
+    type="text" 
+    id="classification_name" 
+    name="classification_name" 
+    value="<%= typeof classification_name !== 'undefined' ? classification_name : '' %>" 
+    required 
+    pattern="^[A-Za-z0-9]+$" 
+    title="No spaces or special characters allowed"
+  >
+  
+  <button type="submit">Add Classification</button>
+</form>

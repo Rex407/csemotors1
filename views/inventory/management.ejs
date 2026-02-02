@@ -1,28 +1,14 @@
-<%- include('../partials/head') %>
-<title>Vehicle Management</title>
-</head>
-<body>
-  <%- include('../partials/header') %>
-  <%- include('../partials/nav') %>
+<h1>Vehicle Management</h1>
 
-  <main>
-    <h1>Vehicle Management</h1>
+<!-- Flash Messages -->
+<% if (messages().length > 0) { %>
+  <div id="flash-messages">
+    <%- messages() %>
+  </div>
+<% } %>
 
-    <% if (messages && messages.notice) { %>
-      <p class="notice"><%= messages.notice %></p>
-    <% } %>
-    <% if (messages && messages.success) { %>
-      <p class="success"><%= messages.success %></p>
-    <% } %>
-    <% if (messages && messages.error) { %>
-      <p class="error"><%= messages.error %></p>
-    <% } %>
-
-    <ul>
-      <li><a href="/inv/add-classification">Add New Classification</a></li>
-      <li><a href="/inv/add-inventory">Add New Inventory Item</a></li>
-    </ul>
-  </main>
-
-  <%- include('../partials/footer') %>
-</body>
+<!-- Management Links -->
+<ul class="management-links">
+  <li><a href="/inv/add-classification">➕ Add New Classification</a></li>
+  <li><a href="/inv/add-inventory">🚗 Add New Inventory</a></li>
+</ul>

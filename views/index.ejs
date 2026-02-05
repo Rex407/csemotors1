@@ -1,114 +1,41 @@
-<!-- My Account section -->
-<div class="my-account">
-    <h2>MY ACCOUNT</h2>
-</div>
-
-<!-- Welcome section -->
-<section class="welcome">
+<section class="hero">
+  <div class="hero-text">
     <h1>Welcome to CSE Motors!</h1>
-    <%- messages() %>
+
+    <ul class="hero-features">
+      <li>DMC Delorean</li>
+      <li>3 Cup holders</li>
+      <li>Superman doors</li>
+      <li>Fuzzy dice!</li>
+    </ul>
+
+    <a href="#" class="hero-btn">Own Today</a>
+  </div>
+
+  <div class="hero-image">
+    <img src="/images/vehicles/delorean.jpg" alt="DMC Delorean">
+  </div>
 </section>
 
-<!-- Featured Vehicle Section -->
-<section class="featured-vehicle">
-    <div class="vehicle-details">
-        <h2 class="vehicle-title">DMC Delorean</h2>
-        <div class="vehicle-description">
-            3 Cup holders<br>
-            Superman doors<br>
-            Fuzzy dice!
-        </div>
-        <button class="cta-button">Own Today</button>
-    </div>
-    <div class="vehicle-image">
-        <img src="/images/vehicles/delorean.jpg" alt="DMC Delorean">
-    </div>
-</section>
-
-<!-- Upgrades Section -->
-<section class="upgrades">
+<section class="home-lower">
+  <div class="add-ons">
     <h2>Delorean Upgrades</h2>
-    <div class="upgrade-items">
-        <div class="upgrade-item">
-            <div class="upgrade-image">
-                <img src="/images/upgrades/flux-cap.png" alt="Flux Capacitor">
-            </div>
-            <div class="upgrade-details">
-                <h3>Flux Capacitor</h3>
-                <p>A red and black cylindrical object with a lightning bolt symbol on it.</p>
-            </div>
-        </div>
-        
-        <div class="upgrade-item">
-            <div class="upgrade-image">
-                <img src="/images/upgrades/flame.jpg" alt="Flame Decals">
-            </div>
-            <div class="upgrade-details">
-                <h3>Flame Decals</h3>
-                <p>A flame design in red and yellow.</p>
-            </div>
-        </div>
-        
-        <div class="upgrade-item">
-            <div class="upgrade-image">
-                <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Stickers">
-            </div>
-            <div class="upgrade-details">
-                <h3>Bumper Stickers</h3>
-                <p>A sticker with the text "BUMPS" written in white on a blue background.</p>
-            </div>
-        </div>
-        
-        <div class="upgrade-item">
-            <div class="upgrade-image">
-                <img src="/images/upgrades/hub-cap.jpg" alt="Hub Caps">
-            </div>
-            <div class="upgrade-details">
-                <h3>Hub Caps</h3>
-                <p>A circular object with multiple holes around its edge, resembling a hubcap.</p>
-            </div>
-        </div>
+    <div class="addons-grid">
+      <a href="#"><img src="/images/upgrades/flux-cap.png"><span>Flux Capacitor</span></a>
+      <a href="#"><img src="/images/upgrades/flame.jpg"><span>Flame Decals</span></a>
+      <a href="#"><img src="/images/upgrades/bumper_sticker.jpg"><span>Bumper Stickers</span></a>
+      <a href="#"><img src="/images/upgrades/hub-cap.jpg"><span>Hub Caps</span></a>
     </div>
-</section>
+  </div>
 
-<!-- Reviews Section -->
-<section class="reviews">
+  <div class="reviews">
     <h2>DMC Delorean Reviews</h2>
-    <div class="review-list">
-        <div class="review-item">
-            <div class="review-text">"So fast it's almost like traveling in time."</div>
-            <div class="review-rating">
-                <span class="stars">★★★★☆</span>
-                <span class="rating-text">(4/5)</span>
-            </div>
-        </div>
-        <div class="review-item">
-            <div class="review-text">"Coolest ride on the road."</div>
-            <div class="review-rating">
-                <span class="stars">★★★★☆</span>
-                <span class="rating-text">(4/5)</span>
-            </div>
-        </div>
-        <div class="review-item">
-            <div class="review-text">"I'm feeling McFly!"</div>
-            <div class="review-rating">
-                <span class="stars">★★★★★</span>
-                <span class="rating-text">(5/5)</span>
-            </div>
-        </div>
-        <div class="review-item">
-            <div class="review-text">"The most futuristic ride of our day."</div>
-            <div class="review-rating">
-                <span class="stars">★★★★½</span>
-                <span class="rating-text">(4.5/5)</span>
-            </div>
-        </div>
-        <div class="review-item">
-            <div class="review-text">"80's livin' and I love it!"</div>
-            <div class="review-rating">
-                <span class="stars">★★★★★</span>
-                <span class="rating-text">(5/5)</span>
-            </div>
-        </div>
-    </div>
+    <ul>
+      <li>"So fast it's almost like traveling in time." (4/5)</li>
+      <li>"Coolest ride on the road." (4/5)</li>
+      <li>"I'm feeling McFly!" (5/5)</li>
+      <li>"The most futuristic ride of our day." (4.5/5)</li>
+      <li>"80's livin and I love it!" (5/5)</li>
+    </ul>
+  </div>
 </section>

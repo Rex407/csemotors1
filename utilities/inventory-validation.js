@@ -1,89 +1,218 @@
+/* ***********************************
+ * Created in Unit 4
+ * Modified in Unit 5
+ *********************************** */
+const utilities = require(".")
 const { body, validationResult } = require("express-validator")
-const utilities = require("./index")
+const validate = {}
 
-/* ************************
- * Classification Validation Rules
- ************************ */
-const classificationRules = () => [
-  body("classification_name")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Please provide a classification name.")
-    .matches(/^[A-Za-z0-9]+$/)
-    .withMessage("Classification name must not contain spaces or special characters."),
-]
+/*  **********************************
+ *  Classification Data Validation Rule
+ *  Assignment 4, Task 2
+ * ********************************* */
+validate.classificationRule = () => {
+  return [
+    // name is required and must be string
+    body("classification_name")
+      .trim()
+      .isLength({ min: 1 })
+      .isAlpha()
+      .withMessage("Provide a correct classification name."),
+  ]
+}
 
-/* ************************
- * Inventory Validation Rules
- ************************ */
-const inventoryRules = () => [
-  body("inv_make")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Please provide a make."),
-  body("inv_model")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Please provide a model."),
-  body("inv_year")
-    .isInt({ min: 1900, max: new Date().getFullYear() + 1 })
-    .withMessage("Please provide a valid year."),
-  body("inv_price")
-    .isFloat({ min: 0 })
-    .withMessage("Please provide a valid price."),
-  body("inv_miles")
-    .isInt({ min: 0 })
-    .withMessage("Please provide valid mileage."),
-  body("inv_color")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Please provide a color."),
-  body("classification_id")
-    .isInt()
-    .withMessage("Please choose a classification."),
-]
-
-/* ************************
- * Check Classification Validation Results
- ************************ */
-const checkClassification = async (req, res, next) => {
-  const errors = validationResult(req)
+/* ******************************
+ * Check and return error or continue to insert classification
+ *  Assignment 4, Task 2
+ * ***************************** */
+validate.checkClassificationData = async (req, res, next) => {
+  const { classification_name } = req.body
+  let errors = []
+  errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const nav = await utilities.getNav()
-    return res.render("inventory/add-classification", {
-      title: "Add New Classification",
+    let nav = await utilities.getNav()
+    res.render("inventory/add-classification", {
+      errors,
+      title: "Add Classification",
       nav,
-      messages: req.flash(),
-      errors: errors.array(),
-      classification_name: req.body.classification_name // sticky value
+      classification_name,
     })
+    return
   }
   next()
 }
 
-/* ************************
- * Check Inventory Validation Results
- ************************ */
-const checkInventory = async (req, res, next) => {
-  const errors = validationResult(req)
+/*  **********************************
+ *  New Vehicle Data Validation Rules
+ *  Assignment 4, Task 3
+ * ********************************* */
+validate.newInventoryRules = () => {
+  return [
+    body("classification_id")
+      .trim()
+      .isInt({
+        no_symbols: true,
+      })
+      .withMessage("The vehicle's classification is required."),
+
+    body("inv_make")
+      .trim()
+      .escape()
+      .isLength({
+        min: 3,
+      })
+      .withMessage("A vehicle make is required."),
+
+    body("inv_model")
+      .trim()
+      .escape()
+      .isLength({
+        min: 3,
+      })
+      .withMessage("A vehicle model is required."),
+
+    body("inv_description")
+      .trim()
+      .escape()
+      .isLength({
+        min: 3,
+      })
+      .withMessage("A vehicle description is required."),
+
+      body("inv_image")
+      .trim()
+      .isLength({
+        min: 6,
+      })
+      .matches(/\.(jpg|jpeg|png|webp)$/)
+      .withMessage("A vehicle image path is required and must be an image."),
+
+    body("inv_thumbnail")
+      .trim()
+      .isLength({
+        min: 6,
+      })
+      .matches(/\.(jpg|jpeg|png|webp)$/)
+      .withMessage("A vehicle thumbnail path is required and must be an image."),
+
+    body("inv_price")
+      .trim()
+      .isDecimal()
+      .withMessage("A vehicle price is required."),
+
+    body("inv_year")
+      .trim()
+      .isInt({
+        min: 1900,
+        max: 2099,
+      })
+      .withMessage("A vehicle year is required."),
+
+    body("inv_miles")
+      .trim()
+      .isInt({
+        no_symbols: true,
+      })
+      .withMessage("The vehicle's miles is required."),
+
+    body("inv_color")
+      .trim()
+      .escape()
+      .isLength({
+        min: 3,
+      })
+      .withMessage("The vehicle's color is required."),
+  ]
+}
+
+/* ******************************
+ *  Check data and return errors or continue to new vehicle
+ *  Assignment 4, Task 3
+ * ***************************** */
+validate.checkInventoryData = async (req, res, next) => {
+  const {
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body
+  let errors = []
+  errors = validationResult(req)
   if (!errors.isEmpty()) {
-    const nav = await utilities.getNav()
-    const classificationSelect = await utilities.buildClassificationList(req.body.classification_id)
-    return res.render("inventory/add-inventory", {
-      title: "Add New Vehicle",
+    let nav = await utilities.getNav()
+    const classificationSelect = await utilities.buildClassificationList(
+      classification_id
+    )
+    res.render("inventory/add-inventory", {
+      errors,
+      title: "Add Vehicle",
       nav,
       classificationSelect,
-      messages: req.flash(),
-      errors: errors.array(),
-      ...req.body // sticky values
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
     })
+    return
   }
   next()
 }
 
-module.exports = {
-  classificationRules,
-  inventoryRules,
-  checkClassification,
-  checkInventory
+/* ******************************
+ *  Check update data and return errors or continue to edit view
+ *  Unit 5, Update Step 2 activity
+ * ***************************** */
+validate.checkUpdateData = async (req, res, next) => {
+  const {
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id,
+    inv_id,
+  } = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    const classificationSelect = await utilities.buildClassificationList(
+      classification_id
+    )
+    res.render("inventory/edit-inventory", {
+      errors,
+      title: `Edit ${inv_make} ${inv_model}`,
+      nav,
+      classificationSelect,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color,
+      inv_id,
+    })
+    return
+  }
+  next()
 }
+
+module.exports = validate

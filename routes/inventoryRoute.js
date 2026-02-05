@@ -1,57 +1,87 @@
+// Needed Resources 
 const express = require("express")
-const router = express.Router()
+const router = new express.Router() 
 const invController = require("../controllers/invController")
-const invValidation = require("../utilities/inventory-validation")
+const utilities = require("../utilities")
+const invChecks = require("../utilities/inventory-validation")
 
-// Management view
-router.get("/", invController.buildManagementView)
+router.get("/type/:classificationId", invController.buildByClassificationId);
 
-/* ***************************
- * Add Classification
- * *************************** */
-router.get("/add-classification", invController.buildAddClassification)
-router.post(
-  "/add-classification",
-  invValidation.classificationRules(),
-  invValidation.checkClassification,
-  invController.addClassification
+
+/* ****************************************
+ * Route to build vehicle detail view
+ **************************************** */
+router.get("/detail/:id", 
+utilities.handleErrors(invController.buildDetail))
+
+/* ****************************************
+ * Error Route
+ * Assignment 3, Task 3
+ **************************************** */
+router.get(
+  "/broken",
+  utilities.handleErrors(invController.throwError)
 )
 
-/* ***************************
- * Add Inventory
- * *************************** */
-router.get("/add-inventory", invController.buildAddInventory)
-router.post(
-  "/add-inventory",
-  invValidation.inventoryRules(),
-  invValidation.checkInventory,
-  invController.addInventory
+/* ****************************************
+ * Build Management View Route
+ * Assignment 4, Task 1
+ * checkAccountType added Unit 5, Assignment 5, Task 2
+ **************************************** */
+router.get(
+  "/",
+  //utilities.checkAccountType,
+  utilities.handleErrors(invController.buildManagementView)
 )
 
-/* ***************************
- * Edit Inventory
- * *************************** */
-router.get("/edit/:id", invController.buildEditInventory)
-router.post(
-  "/edit/:id",
-  invValidation.inventoryRules(),
-  invValidation.checkInventory,
-  invController.updateInventory
+/* ****************************************
+ * Build add-classification View Route
+ * Assignment 4, Task 2
+ * checkAccountType added Unit 5, Assignment 5, Task 2
+ **************************************** */
+router.get(
+  "/newClassification",
+  //utilities.checkAccountType,
+  utilities.handleErrors(invController.newClassificationView)
 )
 
-/* ***************************
- * View Inventory by Classification
- * *************************** */
-router.get("/type/:classificationId", invController.buildByClassificationId)
 
-/* ***************************
- * View Vehicle Detail
- * *************************** */
-router.get("/detail/:id", invController.buildDetail)
+/* ****************************************
+ * Process add-classification Route
+ * Assignment 4, Task 2
+ * checkAccountType added Unit 5, Assignment 5, Task 2
+ **************************************** */
+router.post(
+  "/addClassification",
+  //utilities.checkAccountType,
+  invChecks.classificationRule(),
+  invChecks.checkClassificationData,
+  utilities.handleErrors(invController.addClassification)
+)
 
-/* ***************************
- * Test Error Route
- * *************************** */
-router.get("/error", invController.throwError)
+/* ****************************************
+ * Build add-vehicle View Route
+ * Assignment 4, Task 3
+ * checkAccountType added Unit 5, Assignment 5, Task 2
+ **************************************** */
+router.get(
+  "/newVehicle",
+  //utilities.checkAccountType,
+  utilities.handleErrors(invController.newInventoryView)
+)
 
-module.exports = router
+/* ****************************************
+ * Process add-vehicle Route
+ * Assignment 4, Task 3
+ * checkAccountType added Unit 5, Assignment 5, Task 2
+ **************************************** */
+router.post(
+  "/addInventory",
+  //utilities.checkAccountType,
+  invChecks.newInventoryRules(),
+  invChecks.checkInventoryData,
+  utilities.handleErrors(invController.addInventory)
+)
+
+
+module.exports = router;

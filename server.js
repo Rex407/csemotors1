@@ -1,39 +1,29 @@
 /* ******************************************
- * server.js – main application file
- ****************************************** */
-
+ * This server.js file is the primary file of the 
+ * application. It is used to control the project.
+ *******************************************/
 /* ***********************
  * Require Statements
  *************************/
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
-require("dotenv").config()
-
+const env = require("dotenv").config()
 const app = express()
-
-// Routes
-const staticRoutes = require("./routes/static")
-const inventoryRoutes = require("./routes/inventoryRoute") // ✅ now points to router
+const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
-const utilities = require("./utilities")
-
-// Session & Database
+const inventoryRoute = require("./routes/inventoryRoute")
+const accountRoute = require("./routes/accountRoute")
+const utilities = require("./utilities/")
 const session = require("express-session")
-const pool = require("./database/")
-
-/* ***********************
- * View Engine
- *************************/
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout")
+const pool = require('./database/')
+const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
 
 /* ***********************
  * Middleware
- *************************/
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-
+ * Between the request and response
+ * ************************/
+// Unit 4, Sessions & Messages Activity
 app.use(
   session({
     store: new (require("connect-pg-simple")(session))({
@@ -41,64 +31,99 @@ app.use(
       pool,
     }),
     secret: process.env.SESSION_SECRET,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     name: "sessionId",
   })
 )
-
-// Flash messages
+// Unit 4, Sessions & Messages Activity
+// Express Messages Middleware
 app.use(require("connect-flash")())
-app.use((req, res, next) => {
+app.use(function (req, res, next) {
   res.locals.messages = require("express-messages")(req, res)
   next()
 })
+// Unit 4, Process Registration Activity
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
-// Static files
-app.use(express.static("public"))
+
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
+
+// Unit 4, Process Registration Activity
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+// Unit 5 Authentication cookie use
+app.use(cookieParser())
+
+/* ***********************
+ * View Engine And Templates
+ *************************/
+app.set("view engine", "ejs")
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout") // not at views root
+
+
+
+
 
 /* ***********************
  * Routes
  *************************/
+app.use(static)
+// Index route - Unit 3, Robust Error Handling activity
+app.get("/", utilities.handleErrors(baseController.buildHome))
+// Inventory routes - Unit 3, Build Inventory route activity
+app.use("/inv", inventoryRoute)
+// Account routes - Unit 4, Deliver Login activity
+app.use("/account", accountRoute)
 
-// Home route
-app.use("/", staticRoutes)
 
-// Inventory routes
-app.use("/inv", inventoryRoutes) // ✅ fixed to use router
 
-/* ***********************
- * 404 Handler
- *************************/
-app.use((req, res, next) => {
-  next({ status: 404, message: "Sorry, we appear to have lost that page." })
+// File Not Found Route - must be last route in list
+app.use(async (req, res, next) => {
+  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
 })
 
+
 /* ***********************
- * Global Error Handler
- *************************/
+* Express Error Handler
+* Place after all other middleware
+*************************/
 app.use(async (err, req, res, next) => {
-  const nav = await utilities.getNav()
-  console.error(`Error at "${req.originalUrl}": ${err.message}`)
-
-  const message =
-    err.status === 404
-      ? err.message
-      : "Oh no! There was a crash. Please try again."
-
-  res.status(err.status || 500).render("errors/error", {
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  if (err.status == 404) {
+    message = err.message
+  } else {
+    message = "Oh no! There was a crash. Maybe try a different route?"
+  }
+  res.render("errors/error", {
     title: err.status || "Server Error",
     message,
     nav,
   })
 })
 
-/* ***********************
- * Server Information
- *************************/
-const port = process.env.PORT || 3000
-const host = process.env.HOST || "localhost"
 
+
+
+/* ***********************
+ * Local Server Information
+ * Values from .env (environment) file
+ *************************/
+const port = process.env.PORT
+const host = process.env.HOST
+
+/* ***********************
+ * Log statement to confirm server operation
+ *************************/
 app.listen(port, () => {
-  console.log(`App listening on ${host}:${port}`)
+  console.log(`app listening on ${host}:${port}`)
 })

@@ -143,6 +143,61 @@ header {
   text-decoration: none;
 }
 
+.vehicle-detail {
+  display: grid;
+  gap: 1rem;
+}
+
+.vehicle-detail img {
+  max-width: 100%;
+  border-radius: 6px;
+}
+
+.vehicle-detail ul {
+  list-style: none;
+  padding: 0;
+}
+
+.vehicle-detail li {
+  padding: .5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.account-link {
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+#navToggle {
+  display: none;
+  font-size: 1.8rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  #navToggle {
+    display: block;
+  }
+
+  #mainNav.nav-closed {
+    display: none;
+  }
+
+  #mainNav.nav-open {
+    display: block;
+  }
+}
+
+
 /* ==========================================
    HOME LOWER (UPGRADES + REVIEWS)
 ========================================== */

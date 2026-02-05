@@ -1,26 +1,33 @@
-<%# Unit 4, Assignment 4, Task 2 %>
-<% if (title) {%>
-<h1><%= title %></h1>
-<%} else {res.redirect('/')} %>
+<% if (title) { %>
+<section class="form-card">
+  <h1><%= title %></h1>
 
-<%- messages() %>
+  <%- messages %>
 
-<% if (errors) { %>
-<ul class="message warning">
-  <% errors.array().forEach(error => { %>
-  <li><%= error.msg %></li>
-  <%  }) %>
-</ul>
-<% } %>
+  <% if (errors) { %>
+    <ul class="error">
+      <% errors.array().forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
 
-<div id="registerContainer">
   <p>Field is required.</p>
-  <form class="formSpread" action="/inv/addClassification" method="post">
-    <fieldset>
-      <label for="carClassification">Classification Name</label>
-      <p>Name must be alphabetic characters only.</p>
-      <input type="text" name="classification_name" id="carClassification" required pattern="[a-zA-Z]*" value="<%= locals.classification_name %>">
-      <button type="submit">Add Classification</button>
-    </fieldset>
+
+  <form action="/inv/addClassification" method="post">
+    <label for="carClassification">Classification Name</label>
+    <p>Name must be alphabetic characters only.</p>
+
+    <input
+      type="text"
+      name="classification_name"
+      id="carClassification"
+      required
+      pattern="[A-Za-z]+"
+      value="<%= locals.classification_name || '' %>"
+    >
+
+    <button type="submit">Add Classification</button>
   </form>
-</div>
+</section>
+<% } else { res.redirect('/') } %>
